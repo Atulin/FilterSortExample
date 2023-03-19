@@ -1,0 +1,39 @@
+﻿@model HomeModel
+@using FilterSortExample.Data
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form asp-controller="Home" asp-action="Index" method="get">
+    
+    <label for="filter">Filter</label>
+    <input type="text" name="filter" id="filter" value="@Model.Filter"/>
+
+    <label for="sort">Sort</label>
+    <select name="sort" id="sort">
+        <option value="null" disabled selected="@(Model.Sort is null)">-sort-</option>
+        @foreach (var val in EnumUtil.ToList<SortOption>())
+        {
+            <option selected="@(val.id == (int?)Model.Sort)" value="@val.id">@val.name</option>
+        }
+    </select>
+    
+    <button type="submit">Search</button>
+
+</form>
+
+<table>
+    <tr class="head">
+        <th>#</th>
+        <th>Name</th>
+        <th>Date</th>
+    </tr>
+    @foreach (var thing in Model.Things)
+    {
+        <tr>
+            <td>@thing.Id</td>
+            <td>@thing.Name</td>
+            <td>@thing.Date.ToString("yyyy-MM-dd HH:mm:ss")</td>
+        </tr>
+    }
+</table>
